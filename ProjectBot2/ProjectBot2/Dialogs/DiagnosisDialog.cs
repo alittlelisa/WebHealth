@@ -11,11 +11,17 @@ namespace ProjectBot2.Dialogs
     [Serializable]
     public class DiagnosisDialog : LuisDialog<object>
     {
-	   [LuisIntent("Main Menu")]
+	   public override async Task StartAsync(IDialogContext context)
+	   {
+		  await context.PostAsync("Please select a diagnosis to begin a decision tree.");
+		  context.Wait(this.MessageReceived);
+	   }
+
+	   [LuisIntent("MainMenu")]
 	   public async Task MainMenu(IDialogContext context, LuisResult result)
 	   {
 		  await context.PostAsync("You want to return to the main menu");
-		  context.Wait(MessageReceived);
+		  context.Wait(this.MessageReceived);
 		  return;
 	   }
 
@@ -33,19 +39,21 @@ namespace ProjectBot2.Dialogs
 			 else if (value == "anxiety" || value == "trauma")
 			 {
 				await context.PostAsync("Sorry, that Diagnosis Tree is not available yet.");
-				context.Wait(MessageReceived);
+				context.Wait(this.MessageReceived);
 			 }
 			 else
 			 {
 				await context.PostAsync("Sorry, I don't recognize that Diagnosis Tree.");
-				context.Wait(MessageReceived);
+				context.Wait(this.MessageReceived);
 			 }
 		  }
 	   }
 
+	   //PromptDialog.PromptConfirm();
+
 	   private async Task Callback(IDialogContext context, IAwaitable<object> result)
 	   {
-		  context.Wait(MessageReceived);
+		  context.Wait(this.MessageReceived);
 	   }
     }
 }

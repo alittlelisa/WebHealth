@@ -10,14 +10,6 @@ namespace ProjectBot2.Dialogs
     [Serializable]
     public class MoodDialog : LuisDialog<object>
     {
-	   [LuisIntent("Main Menu")]
-	   public async Task MainMenu(IDialogContext context, LuisResult result)
-	   {
-		  await context.PostAsync("You want to return to the main menu");
-		  context.Wait(MessageReceived);
-		  return;
-	   }
-
 	   [LuisIntent("Back")]
 	   public async Task Back(IDialogContext context, LuisResult result)
 	   {

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
@@ -11,34 +13,37 @@ namespace ProjectBot2.Dialogs
     [Serializable]
     public class RootDialog : LuisDialog<object>
     {
-	   public override async Task StartAsync(IDialogContext context)
+	   [LuisIntent("")]
+	   public async Task None(IDialogContext context, LuisResult result)
+	   {
+		  await context.PostAsync("I do not understand");
+		  context.Wait(MessageReceived);
+	   }
+
+	   [LuisIntent("greeting")]
+	   public async Task Greeting(IDialogContext context, LuisResult result)
 	   {
 		  await context.PostAsync("Hello, welcome to the Differential Diagnosis Decision Tree Bot.");
 		  context.Wait(MessageReceived);
 	   }
 
-	   [LuisIntent("")]
-        public async Task None(IDialogContext context, LuisResult result)
-        {
-            await context.PostAsync("I do not understand");
-            context.Wait(MessageReceived);
-        }
-
-        [LuisIntent("Exit")]
-        public async Task Quit(IDialogContext context, LuisResult result)
+        [LuisIntent("exit")]
+        public async Task Exit(IDialogContext context, LuisResult result)
         {
             await context.PostAsync("You want to exit");
             context.Wait(MessageReceived);
         }
 
-	   [LuisIntent("DifferentialDiagnosis")]
-	   public async Task DiagnosticList(IDialogContext context, LuisResult result)
+	   [LuisIntent("differentialDiagnosis")]
+	   public async Task DifferentialDiagnosis(IDialogContext context, LuisResult result)
 	   {
-		  context.Call(new DiagnosisDialog(), Callback);
+		  await context.PostAsync("Starting the Differential Diagnosis menu...");
+		  await context.Forward(new DiagnosisDialog(), Callback, "", CancellationToken.None);
 	   }
 
 	   private async Task Callback(IDialogContext context, IAwaitable<object> result)
 	   {
+		  await context.PostAsync("Returned to the main menu.");
 		  context.Wait(MessageReceived);
 	   }
     }
