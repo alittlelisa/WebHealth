@@ -15,31 +15,32 @@ namespace ProjectBot2.Dialogs
 	   {
 		  await context.PostAsync("You want to return to the main menu");
 		  context.Wait(MessageReceived);
+		  return;
 	   }
 
-	   [LuisIntent("Step Back")]
-	   public async Task StepBack(IDialogContext context, LuisResult result)
+	   [LuisIntent("Back")]
+	   public async Task Back(IDialogContext context, LuisResult result)
 	   {
 		  await context.PostAsync("You want to return to the last question");
 		  context.Wait(MessageReceived);
 	   }
 
-	   [LuisIntent("Restart Tree")]
-	   public async Task RestartTree(IDialogContext context, LuisResult result)
+	   [LuisIntent("Restart")]
+	   public async Task Restart(IDialogContext context, LuisResult result)
 	   {
 		  await context.PostAsync("You want to restart the diagnostic test");
 		  context.Wait(MessageReceived);
 	   }
 
-	   [LuisIntent("ConfirmSelection")]
-	   public async Task ConfirmSelection(IDialogContext context, LuisResult result)
+	   [LuisIntent("Confirm")]
+	   public async Task Confirm(IDialogContext context, LuisResult result)
 	   {
 		  await context.PostAsync("You want to confirm/say yes");
 		  context.Wait(MessageReceived);
 	   }
 
-	   [LuisIntent("DenySelection")]
-	   public async Task DenySelection(IDialogContext context, LuisResult result)
+	   [LuisIntent("Deny")]
+	   public async Task Deny(IDialogContext context, LuisResult result)
 	   {
 		  await context.PostAsync("You want to cancel/say no");
 		  context.Wait(MessageReceived);
