@@ -1,9 +1,13 @@
-﻿using System.Net;
+﻿using System;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Description;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
+using Newtonsoft.Json;
 
 namespace ProjectBot2
 {
@@ -18,7 +22,7 @@ namespace ProjectBot2
         {
             if (activity.Type == ActivityTypes.Message)
             {
-                await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
+			 await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
             }
             else
             {

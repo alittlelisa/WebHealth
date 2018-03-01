@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
+using Microsoft.Bot.Connector;
 
 namespace ProjectBot2.Dialogs
 {
@@ -10,7 +11,13 @@ namespace ProjectBot2.Dialogs
     [Serializable]
     public class RootDialog : LuisDialog<object>
     {
-        [LuisIntent("")]
+	   public override async Task StartAsync(IDialogContext context)
+	   {
+		  await context.PostAsync("Hello, welcome to the Differential Diagnosis Decision Tree Bot.");
+		  context.Wait(MessageReceived);
+	   }
+
+	   [LuisIntent("")]
         public async Task None(IDialogContext context, LuisResult result)
         {
             await context.PostAsync("I do not understand");
@@ -24,47 +31,15 @@ namespace ProjectBot2.Dialogs
             context.Wait(MessageReceived);
         }
 
-        [LuisIntent("StepBack")]
-        public async Task StepBack(IDialogContext context, LuisResult result)
-        {
-            await context.PostAsync("You want to return to the last question");
-            context.Wait(MessageReceived);
-        }
+	   [LuisIntent("DifferentialDiagnosis")]
+	   public async Task DiagnosticList(IDialogContext context, LuisResult result)
+	   {
+		  context.Call(new DiagnosisDialog(), Callback);
+	   }
 
-        [LuisIntent("RestartTree")]
-        public async Task RestartTree(IDialogContext context, LuisResult result)
-        {
-            await context.PostAsync("You want to restart the diagnostic test");
-            context.Wait(MessageReceived);
-        }
-
-        [LuisIntent("MainMenu")]
-        public async Task MainMenu(IDialogContext context, LuisResult result)
-        {
-            await context.PostAsync("You want to return to the main menu");
-            context.Wait(MessageReceived);
-        }
-
-        [LuisIntent("DiagnosticList")]
-        public async Task DiagnosticList(IDialogContext context, LuisResult result)
-        {
-            await context.PostAsync("You want to go to the assessment menu");
-            context.Wait(MessageReceived);
-        }
-
-        [LuisIntent("DenySelection")]
-        public async Task DenySelection(IDialogContext context, LuisResult result)
-        {
-            await context.PostAsync("You want to cancel/say no");
-            context.Wait(MessageReceived);
-        }
-
-        [LuisIntent("ConfirmSelection")]
-        public async Task ConfirmSelection(IDialogContext context, LuisResult result)
-        {
-            await context.PostAsync("You want to confirm/say yes");
-            context.Wait(MessageReceived);
-        }
-
+	   private async Task Callback(IDialogContext context, IAwaitable<object> result)
+	   {
+		  context.Wait(MessageReceived);
+	   }
     }
 }
