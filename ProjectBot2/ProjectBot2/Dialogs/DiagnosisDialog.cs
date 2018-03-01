@@ -7,7 +7,7 @@ using Microsoft.Bot.Builder.Luis.Models;
 
 namespace ProjectBot2.Dialogs
 {
-    [LuisModel("8a4fdce8-e29d-4acd-9c3e-eb2918b6558b", "1477d4114445442fb6ec1021ca89f5ec")]
+    [LuisModel("5f07ece2-da5b-474e-9056-00b25f95ec36", "389b90d438fe479ca57a8a881ffaceb6")]
     [Serializable]
     public class DiagnosisDialog : LuisDialog<object>
     {
