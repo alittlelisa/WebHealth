@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
+using Microsoft.Bot.Connector;
 
 namespace ProjectBot2.Dialogs
 {
@@ -17,14 +18,6 @@ namespace ProjectBot2.Dialogs
 		  context.Wait(this.MessageReceived);
 	   }
 
-	   [LuisIntent("MainMenu")]
-	   public async Task MainMenu(IDialogContext context, LuisResult result)
-	   {
-		  await context.PostAsync("You want to return to the main menu");
-		  context.Wait(this.MessageReceived);
-		  return;
-	   }
-
 	   [LuisIntent("DiagnosisOption")]
 	   public async Task DiagnosisOption(IDialogContext context, LuisResult result)
 	   {
@@ -34,7 +27,7 @@ namespace ProjectBot2.Dialogs
 			 if (value == "mood")
 			 {
 				await context.PostAsync("Starting the Mood Disorder Diagnosis Tree...");
-				context.Call(new MoodDialog(), Callback);
+				//context.Call(new MoodDi);
 			 }
 			 else if (value == "anxiety" || value == "trauma")
 			 {
@@ -51,9 +44,15 @@ namespace ProjectBot2.Dialogs
 
 	   //PromptDialog.PromptConfirm();
 
-	   private async Task Callback(IDialogContext context, IAwaitable<object> result)
+	   public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
 	   {
-		  context.Wait(this.MessageReceived);
+		  await context.PostAsync("Can all symptoms be accounted for by Schizo-affective Disorder?");
+		  context.Wait(MessageReceived);
+		  var response = await argument;
+		  if (response.Text == "Yes")
+		  {
+			 await context.PostAsync("Has the criteria been met for one manic episode?");
+		  }
 	   }
     }
 }
