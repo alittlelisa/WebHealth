@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
@@ -28,9 +28,12 @@ namespace ProjectBot2.Dialogs
         [LuisIntent("DiagnosisOption")]
 	   public async Task DiagnosisOption(IDialogContext context, LuisResult result)
 	   {
-		  foreach (var entity in result.Entities.Where(Entity => Entity.Type == "Diagnosis"))
+            
+		  foreach (var entity in result.Entities)
 		  {
-			 var value = entity.Entity.ToLower();
+
+             var value = entity.Entity.ToLower();
+
 			 if (value == "mood")
 			 {
 				await context.PostAsync("Starting the Mood Disorder Diagnosis Tree...");
