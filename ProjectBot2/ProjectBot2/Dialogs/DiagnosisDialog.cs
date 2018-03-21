@@ -18,7 +18,14 @@ namespace ProjectBot2.Dialogs
 		  context.Wait(this.MessageReceived);
 	   }
 
-	   [LuisIntent("DiagnosisOption")]
+        [LuisIntent ("")]
+        public async Task None(IDialogContext context, LuisResult result)
+        {
+            await context.PostAsync("I do not understand");
+            context.Wait(MessageReceived);
+        }
+
+        [LuisIntent("DiagnosisOption")]
 	   public async Task DiagnosisOption(IDialogContext context, LuisResult result)
 	   {
 		  foreach (var entity in result.Entities.Where(Entity => Entity.Type == "Diagnosis"))
@@ -27,7 +34,7 @@ namespace ProjectBot2.Dialogs
 			 if (value == "mood")
 			 {
 				await context.PostAsync("Starting the Mood Disorder Diagnosis Tree...");
-				//context.Call(new MoodDi);
+				context.Call(new MoodDialog(), Callback);
 			 }
 			 else if (value == "anxiety" || value == "trauma")
 			 {
@@ -54,5 +61,11 @@ namespace ProjectBot2.Dialogs
 			 await context.PostAsync("Has the criteria been met for one manic episode?");
 		  }
 	   }
+
+        private async Task Callback(IDialogContext context, IAwaitable<object> result)
+        {
+            await context.PostAsync("Returned to the diagnosis menu.");
+            context.Wait(MessageReceived);
+        }
     }
 }
