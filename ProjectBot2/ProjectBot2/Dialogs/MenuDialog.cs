@@ -23,7 +23,7 @@ namespace ProjectBot2.Dialogs
             context.Wait(MessageReceived);
         }
 
-        [LuisIntent("greeting")]
+        [LuisIntent("Greeting")]
         public async Task Greeting(IDialogContext context, LuisResult result)
         {
             this.greetCount++;
@@ -56,7 +56,7 @@ namespace ProjectBot2.Dialogs
             context.Wait(MessageReceived);
         }
 
-        [LuisIntent("back")]
+        [LuisIntent("Back")]
         public async Task Back(IDialogContext context, LuisResult result)
         {
             await context.PostAsync("You want to return to the last question");
@@ -70,21 +70,21 @@ namespace ProjectBot2.Dialogs
             context.Wait(MessageReceived);
         }
 
-        [LuisIntent("confirm")]
+        [LuisIntent("Confirm")]
         public async Task Confirm(IDialogContext context, LuisResult result)
         {
             await context.PostAsync("You want to confirm/say yes");
             context.Wait(MessageReceived);
         }
 
-        [LuisIntent("deny")]
+        [LuisIntent("Deny")]
         public async Task Deny(IDialogContext context, LuisResult result)
         {
             await context.PostAsync("You want to cancel/say no");
             context.Wait(MessageReceived);
         }
 
-        [LuisIntent("differentialDiagnosis")]
+        [LuisIntent("DifferentialDiagnosis")]
         public async Task DifferentialDiagnosis(IDialogContext context, LuisResult result)
         {
             await context.PostAsync("Starting the Differential Diagnosis menu...");

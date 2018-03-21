@@ -18,7 +18,6 @@ namespace ProjectBot2.Dialogs
 
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
-            var activity = await result as Activity;
 
             await context.PostAsync("Starting the main menu");
 
