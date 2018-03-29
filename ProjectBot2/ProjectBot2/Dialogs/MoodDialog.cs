@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
@@ -18,23 +19,23 @@ namespace ProjectBot2.Dialogs
 	   {
             var reply = "Please say begin when you are ready to start.";
 		  await context.SayAsync(text: reply, speak: reply);
-		  context.Wait(MessageReceivedAsync);
+		  context.Wait(MessageReceivedToStart);
         }
 
-	   public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
+	   public virtual async Task MessageReceivedToStart(IDialogContext context, IAwaitable<IMessageActivity> argument)
 	   {
 		  var response = await argument;
 		  if (response.Text.ToLower().Contains("begin"))
 		  {
-             var reply = "Have there been any clinically significant mood symptoms?";
+			 var reply = "Have there been any clinically significant mood symptoms?";
 			 await context.SayAsync(text: reply, speak: reply);
 			 context.Wait(D0);
 		  }
 		  else
 		  {
                 var reply = "Sorry, I didn't quite understand that.";
-             await context.SayAsync(text: reply, speak: reply);
-			 context.Wait(MessageReceivedAsync);
+			 await context.SayAsync(text: reply, speak: reply);
+			 context.Wait(MessageReceivedToStart);
 		  }
         }
 
@@ -44,8 +45,8 @@ namespace ProjectBot2.Dialogs
 		  var response = await argument;
 		  if (response.Text.ToLower().Contains("yes"))
 		  {
-             var reply = "Can all symptoms be accounted for by a diagnosis of Schizoaffective Disorder?";
-             await context.SayAsync(text: reply, speak: reply);
+			 var reply = "Can all symptoms be accounted for by a diagnosis of Schizoaffective Disorder?";
+			 await context.SayAsync(text: reply, speak: reply);
 			 context.Wait(D1);
 		  }
 		  else if (response.Text.ToLower().Contains("no"))

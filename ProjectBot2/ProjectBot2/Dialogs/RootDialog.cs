@@ -16,9 +16,8 @@ namespace ProjectBot2.Dialogs
 
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
-		  await context.PostAsync("Welcome to the Differential Diagnosis Decision Tree Bot.");
 		  await context.PostAsync("Starting the main menu...");
-		  context.Call(new MenuDialog(), Callback);
+		  context.Call(new DiagnosisDialog(), Callback);
         }
 
         private async Task Callback(IDialogContext context, IAwaitable<object> result)
