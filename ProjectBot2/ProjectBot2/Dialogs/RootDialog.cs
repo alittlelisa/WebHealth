@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Connector;
 
 namespace ProjectBot2.Dialogs
 {
@@ -18,16 +16,15 @@ namespace ProjectBot2.Dialogs
 
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
-
-            await context.PostAsync("Starting the main menu");
-
-            context.Call(new MenuDialog(), Callback);
+		  await context.PostAsync("Welcome to the Differential Diagnosis Decision Tree Bot.");
+		  await context.PostAsync("Starting the main menu...");
+		  context.Call(new MenuDialog(), Callback);
         }
 
         private async Task Callback(IDialogContext context, IAwaitable<object> result)
         {
-            await context.PostAsync("Returned from the main menu.");
-            context.Wait(MessageReceivedAsync);
+            await context.PostAsync("Thank you for using the Differnetial Diagnosis Decision Tree Bot. Have a nice day.");
+		  context.Done(1);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace ProjectBot2.Dialogs
             this.greetCount++;
             if (greetCount == 1)
             {
-                await context.PostAsync("Hello, welcome to the Differential Diagnosis Decision Tree Bot.");
+                await context.PostAsync("Hello.");
                 context.Wait(MessageReceived);
             }
             else if (greetCount == 2)
@@ -49,40 +49,32 @@ namespace ProjectBot2.Dialogs
             }
         }
 
-        [LuisIntent("exit")]
-        public async Task Exit(IDialogContext context, LuisResult result)
+        [LuisIntent("Exit")]
+	   public virtual async Task Exit(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync("You want to exit");
-            context.Wait(MessageReceived);
-        }
+		  await context.PostAsync("Are you sure you want to exit the application?");
+		  PromptDialog.Confirm(
+			 context,
+			 ExitApp,
+			 "Yes/No",
+			 "Sorry, I didn't understand that!",
+			 promptStyle: PromptStyle.None
+		  );
+	   }
 
-        [LuisIntent("Back")]
-        public async Task Back(IDialogContext context, LuisResult result)
-        {
-            await context.PostAsync("You want to return to the last question");
-            context.Wait(MessageReceived);
-        }
-
-        [LuisIntent("Restart")]
-        public async Task Restart(IDialogContext context, LuisResult result)
-        {
-            await context.PostAsync("You want to restart the diagnostic test");
-            context.Wait(MessageReceived);
-        }
-
-        [LuisIntent("Confirm")]
-        public async Task Confirm(IDialogContext context, LuisResult result)
-        {
-            await context.PostAsync("You want to confirm/say yes");
-            context.Wait(MessageReceived);
-        }
-
-        [LuisIntent("Deny")]
-        public async Task Deny(IDialogContext context, LuisResult result)
-        {
-            await context.PostAsync("You want to cancel/say no");
-            context.Wait(MessageReceived);
-        }
+	   public async Task ExitApp(IDialogContext context, IAwaitable<bool> result)
+	   {
+		  var confirm = await result;
+		  if (confirm)
+		  {
+			 context.Done(1);
+		  }
+		  else
+		  {
+			 await context.PostAsync("Did not exit.");
+			 context.Wait(MessageReceived);
+		  }
+	   }
 
         [LuisIntent("DifferentialDiagnosis")]
         public async Task DifferentialDiagnosis(IDialogContext context, LuisResult result)
@@ -95,17 +87,6 @@ namespace ProjectBot2.Dialogs
         {
             await context.PostAsync("Returned to the main menu.");
             context.Wait(MessageReceived);
-        }
-
-        public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
-        {
-            await context.PostAsync("Can all symptoms be accounted for by Schizo-affective Disorder?");
-            context.Wait(MessageReceived);
-            var response = await argument;
-            if (response.Text == "Yes")
-            {
-                await context.PostAsync("Has the criteria been met for one manic episode?");
-            }
         }
     }
 }

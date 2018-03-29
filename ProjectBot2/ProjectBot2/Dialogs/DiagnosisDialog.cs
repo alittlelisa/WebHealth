@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
-using Microsoft.Bot.Connector;
 
 namespace ProjectBot2.Dialogs
 {
@@ -28,12 +26,9 @@ namespace ProjectBot2.Dialogs
         [LuisIntent("DiagnosisOption")]
 	   public async Task DiagnosisOption(IDialogContext context, LuisResult result)
 	   {
-            
-		  foreach (var entity in result.Entities)
+            foreach (var entity in result.Entities)
 		  {
-
-             var value = entity.Entity.ToLower();
-
+                var value = entity.Entity.ToLower();
 			 if (value == "mood")
 			 {
 				await context.PostAsync("Starting the Mood Disorder Diagnosis Tree...");
@@ -52,20 +47,7 @@ namespace ProjectBot2.Dialogs
 		  }
 	   }
 
-	   //PromptDialog.PromptConfirm();
-
-	   public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
-	   {
-		  await context.PostAsync("Can all symptoms be accounted for by Schizo-affective Disorder?");
-		  context.Wait(MessageReceived);
-		  var response = await argument;
-		  if (response.Text == "Yes")
-		  {
-			 await context.PostAsync("Has the criteria been met for one manic episode?");
-		  }
-	   }
-
-        private async Task Callback(IDialogContext context, IAwaitable<object> result)
+	   private async Task Callback(IDialogContext context, IAwaitable<object> result)
         {
             await context.PostAsync("Returned to the diagnosis menu.");
             context.Wait(MessageReceived);
