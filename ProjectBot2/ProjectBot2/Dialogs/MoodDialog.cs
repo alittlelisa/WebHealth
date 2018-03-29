@@ -16,7 +16,8 @@ namespace ProjectBot2.Dialogs
 
 	   public async Task StartAsync(IDialogContext context)
 	   {
-		  await context.PostAsync("Please say begin when you are ready to start.");
+            var reply = "Please say begin when you are ready to start.";
+		  await context.SayAsync(text: reply, speak: reply);
 		  context.Wait(MessageReceivedAsync);
         }
 
@@ -25,12 +26,14 @@ namespace ProjectBot2.Dialogs
 		  var response = await argument;
 		  if (response.Text.ToLower().Contains("begin"))
 		  {
-			 await context.PostAsync("Have there been any clinically significan mood symptoms?");
+             var reply = "Have there been any clinically significant mood symptoms?";
+			 await context.SayAsync(text: reply, speak: reply);
 			 context.Wait(D0);
 		  }
 		  else
 		  {
-			 await context.PostAsync("Sorry, I didn't quite understand that.");
+                var reply = "Sorry, I didn't quite understand that.";
+             await context.SayAsync(text: reply, speak: reply);
 			 context.Wait(MessageReceivedAsync);
 		  }
         }
@@ -41,18 +44,21 @@ namespace ProjectBot2.Dialogs
 		  var response = await argument;
 		  if (response.Text.ToLower().Contains("yes"))
 		  {
-			 await context.PostAsync("Can all symptoms be accounted for by a diagnosis of Schizoaffective Disorder?");
+             var reply = "Can all symptoms be accounted for by a diagnosis of Schizoaffective Disorder?";
+             await context.SayAsync(text: reply, speak: reply);
 			 context.Wait(D1);
 		  }
 		  else if (response.Text.ToLower().Contains("no"))
 		  {
-			 await context.PostAsync("The Substance Use Disorder Tree is required to continue.");
-			 context.Done(0);
+                var reply = "The Substance Use Disorder Tree is required to continue.";
+                await context.SayAsync(text: reply, speak: reply);
+                context.Done(0);
 		  }
 		  else
 		  {
-			 await context.PostAsync("Sorry, I didn't quite understand that.");
-			 context.Wait(D0);
+                var reply = "Sorry, I didn't quite understand that.";
+                await context.SayAsync(text: reply, speak: reply);
+                context.Wait(D0);
 		  }
 	   }
 
@@ -62,18 +68,23 @@ namespace ProjectBot2.Dialogs
 		  var response = await argument;
 		  if (response.Text.ToLower().Contains("yes"))
 		  {
-			 await context.PostAsync("The Substance Use Disorder Tree is required to continue.");
-			 context.Done(0);
+                var reply = "The Substance Use Disorder Tree is required to continue.";
+                await context.SayAsync(text: reply, speak: reply);
+                context.Done(0);
 		  }
 		  else if (response.Text.ToLower().Contains("no"))
 		  {
-			 await context.PostAsync("Let's test for Bipolar Type One Disorder?");
-			 await context.PostAsync("Has the criteria been met for at least one Manic Episode?");
-			 context.Wait(D2);
+                var reply = "Let's test for Bipolar Type One Disorder?";
+                await context.SayAsync(text: reply, speak: reply);
+                reply = "Has the criteria been met for at least one Manic Episode?";
+                await context.PostAsync("Has the criteria been met for at least one Manic Episode?");
+                await context.SayAsync(text: reply, speak: reply);
+                context.Wait(D2);
 		  }
 		  else
 		  {
-			 await context.PostAsync("Sorry, I didn't quite understand that.");
+                var reply = "Sorry, I didn't quite understand that.";
+                await context.SayAsync(text: reply, speak: reply);
 			 context.Wait(D1);
 		  }
 	   }
@@ -83,8 +94,9 @@ namespace ProjectBot2.Dialogs
 		  if(this.CurrentQuestion == 5)
 		  {
 			 this.CurrentQuestion = 2;
-			 await context.PostAsync("Is the occurence of this episode better explained by Schizophrenia or a Schizoaffective, Schizophreniform, Delusional, or other Psychotic Disorder?");
-			 context.Wait(D3);
+                var reply = "Is the occurence of this episode better explained by Schizophrenia or a Schizoaffective, Schizophreniform, Delusional, or other Psychotic Disorder?";
+                await context.SayAsync(text: reply, speak: reply);
+                context.Wait(D3);
 		  }
 		  else
 		  {
@@ -92,18 +104,21 @@ namespace ProjectBot2.Dialogs
 			 var response = await argument;
 			 if (response.Text.ToLower().Contains("yes"))
 			 {
-				await context.PostAsync("Is the occurence of this episode better explained by Schizophrenia or a Schizoaffective, Schizophreniform, Delusional, or other Psychotic Disorder?");
-				context.Wait(D3);
+                    var reply = "Is the occurence of this episode better explained by Schizophrenia or a Schizoaffective, Schizophreniform, Delusional, or other Psychotic Disorder?";
+                    await context.SayAsync(text: reply, speak: reply);
+                    context.Wait(D3);
 			 }
 			 else if (response.Text.ToLower().Contains("no"))
 			 {
-				await context.PostAsync("Has the critera been met for at least on Hypomanic Episode and at least one Major Depressive Episode?");
-				context.Wait(D4);
+                    var reply = "Has the critera been met for at least on Hypomanic Episode and at least one Major Depressive Episode?";
+                    await context.SayAsync(text: reply, speak: reply);
+                    context.Wait(D4);
 			 }
 			 else
 			 {
-				await context.PostAsync("Sorry, I didn't quite understand that.");
-				context.Wait(D2);
+                    var reply = "Sorry, I didn't quite understand that.";
+                    await context.SayAsync(text: reply, speak: reply);
+                    context.Wait(D2);
 			 }
 		  }
 		  
@@ -115,18 +130,21 @@ namespace ProjectBot2.Dialogs
 		  var response = await argument;
 		  if (response.Text.ToLower().Contains("yes"))
 		  {
-			 await context.PostAsync("This is Bipolar Type 1 Disorder, indicate the type of the most recent episode(manic, major depressive, hypomanic, or unspecified) and we will continue with the chronology.");
+                var reply = "This is Bipolar Type 1 Disorder, indicate the type of the most recent episode(manic, major depressive, hypomanic, or unspecified) and we will continue with the chronology.";
+                await context.SayAsync(text: reply, speak: reply);
 			 //context.Wait(D17);
 			 context.Done(0);
 		  }
 		  else if (response.Text.ToLower().Contains("no"))
 		  {
-			 await context.PostAsync("Has the critera been met for at least on Hypomanic Episode and at least one Major Depressive Episode?");
+                var reply = "Has the critera been met for at least on Hypomanic Episode and at least one Major Depressive Episode?";
+                await context.SayAsync(text: reply, speak: reply);
 			 context.Wait(D4);
 		  }
 		  else
 		  {
-			 await context.PostAsync("Sorry, I didn't quite understand that.");
+                var reply = "Sorry, I didn't quite understand that.";
+                await context.SayAsync(text: reply, speak: reply);
 			 context.Wait(D3);
 		  }
 	   }
@@ -137,18 +155,21 @@ namespace ProjectBot2.Dialogs
 		  var response = await argument;
 		  if (response.Text.ToLower().Contains("yes"))
 		  {
-			 await context.PostAsync("Has there never been a Manic Episode?");
+                var reply = "Has there never been a Manic Episode?";
+                await context.SayAsync(text: reply, speak: reply);
 			 context.Wait(D5);
 		  }
 		  else if (response.Text.ToLower().Contains("no"))
 		  {
-			 await context.PostAsync("I am aparently missing this question.");
+                var reply = "I am apparently missing the question.";
+                await context.SayAsync(text: reply, speak: reply);
 			 //context.Wait(D8);
 			 context.Done(0);
 		  }
 		  else
 		  {
-			 await context.PostAsync("Sorry, I didn't quite understand that.");
+                var reply = "Sorry, I didn't quite understand that.";
+                await context.SayAsync(text: reply, speak: reply);
 			 context.Wait(D4);
 		  }
 	   }
@@ -159,18 +180,21 @@ namespace ProjectBot2.Dialogs
 		  var response = await argument;
 		  if (response.Text.ToLower().Contains("yes"))
 		  {
-			 await context.PostAsync("Is the occurence of this episode better explained by Schizophrenia or a Schizoaffective, Schizophreniform, Delusional, or other Psychotic Disorder?");
+                var reply = "Is the occurence of this episode better explained by Schizophrenia or a Schizoaffective, Schizophreniform, Delusional, or other Psychotic Disorder?";
+                await context.SayAsync(text: reply, speak: reply);
 			 //context.Wait(D6);
 			 context.Done(0);
 		  }
 		  else if (response.Text.ToLower().Contains("no"))
 		  {
-			 await context.PostAsync("The criteria has been met for at least one Manic Episode.");
+                var reply = "The criteria has been met for at least one Manic Episode";
+                await context.SayAsync(text: reply, speak: reply);
 			 await D2(context, argument);
 		  }
 		  else
 		  {
-			 await context.PostAsync("Sorry, I didn't quite understand that.");
+                var reply = "Sorry, I didn't quite understand that.";
+                await context.SayAsync(text: reply, speak: reply);
 			 context.Wait(D4);
 		  }
 	   }
